@@ -71,7 +71,7 @@
             color: #fff;
         }
 
-        #feeForm, #expenditureForm{
+        #feeForm, #expenditureForm, .feeForm{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -81,6 +81,24 @@
         #feeForm button, #expenditureForm button{
             height: 80px;
         }
+
+        #feeForm select{
+            height: 40px;
+            padding: 10px;
+            width: 60%;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+
+        #feeForm select:hover{
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
     </style>
 </head>
 
@@ -175,7 +193,7 @@
         </form>
 
         {% if fetch_details %}
-        <form action='/today_fee_record/' method='post'>
+        <form action='/today_fee_record/' class="feeForm" method='post'>
             {% csrf_token %}
             <input type='hidden' name='form_type' value='fill'>
             <h4>Fee Details</h4>
@@ -207,7 +225,7 @@
                 <label>Purpose</label>
                 <input type='text' placeholder='Specify the Purpose of Expenditure' name='purpose'>
             </div>
-            <div>
+            <div class="single">
                 <label>Amount</label>
                 <input type='number' name='amount'>
             </div>
