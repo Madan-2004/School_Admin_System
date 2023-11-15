@@ -315,7 +315,7 @@ def new_employee(request):
 
     return render(request,'employee_management.html')
 
-@login_required
+# @login_required
 def defaults(request):
     return render(request,'defaults.html')
 
