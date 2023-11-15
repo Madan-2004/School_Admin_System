@@ -38,11 +38,11 @@ def life(request):
 # def about(request):
 #     return render(request,'about.html')
 
-@login_required
+# @login_required
 def entry(request):
     return render(request,'entry.html')
 
-@login_required
+# @login_required
 def student_management(request):
     return render(request,'student_management.html')
 
@@ -50,7 +50,7 @@ def student_management(request):
 def employee_management(request):
     return render(request,'employee_management.html')
 
-@login_required
+# @login_required
 def finance(request):
     return render(request,'finance.html')
 

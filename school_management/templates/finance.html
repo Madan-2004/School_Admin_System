@@ -1,8 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "main.css" %}">
+    <link rel="stylesheet" href="{% static "form.css" %}">
+    <link rel="stylesheet" href="{% static "sidebar.css" %}">
+    <script src="https://kit.fontawesome.com/0ceeca1f1f.js" crossorigin="anonymous"></script>
     <title>Finance</title>
     <style>
         #today{
@@ -46,20 +51,76 @@
             background: #fff;
             margin-bottom: 10px;
         }
+        #today_finance{
+            position: absolute;
+            top: 15%;
+            /* list-style-type: none; */
+            font-size: 18px;
+            line-height: 30px;
+            color: var(--secondary-color);
+            left: 20%;
+        }
 
+        #today_finance li{
+            margin-bottom: 10px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        #today_finance li:hover{
+            color: #fff;
+        }
+
+        #feeForm, #expenditureForm{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #feeForm button, #expenditureForm button{
+            height: 80px;
+        }
     </style>
 </head>
 
 <body>
-    <ul>
-        <li id="today">Today's Finance</li>
-    </ul>
+    <div class="navbar1">
+        <div class="hamburger1" id="menus"><i class="fa-solid fa-bars"></i></div>
+        <div class="school_title">
+            <a href="{% url "index" %}"><h3 style="font-size: 40px;">Champ School</h3></a>
+        </div>
+        <div>
+          <a href="{% url "login" %}" class="login">
+            <div class="Login">
+              <i class="fa-solid fa-user"></i>
+            </div>
+        </a>
+      </div>
+      </div>
 
-    <ul id='today_finance' class='hidden'>
-        <li id='today_fee'>Fee Collection</li>
-        <li id='today_expenditure'>Expenditure</li>
-    </ul>
+      <div class="side-bar">
+        <div id="close"><i class="fa-solid fa-xmark"></i></div>
+        <ul>
+          <li><a href="{% url "index" %}">Home</a></li>
+          <li><a href="admission.html">Admission</a></li>
+          <li><a href="{% url "academics" %}">Academics</a></li>
+          <li><a href="{% url "life" %}">Student Life</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="{% url "login" %}">Login</a></li>
+        </ul>
+    </div>
 
+    <div class="side">
+        <ul>
+            <li id="today">Today's Finance</li>
+        </ul>
+
+        <div id='today_finance' class='hidden'>
+            <li id='today_fee'>Fee Collection</li>
+            <li id='today_expenditure'>Expenditure</li>
+        </div>
+    </div>
     {% for msg in messages %}
     <div id="message-container">
         <div id="loading-bar"></div>
@@ -71,64 +132,110 @@
     </div>
     {% endfor %}
 
-    <form action='/today_fee_record/' method='post' class='hidden' id="feeForm">
-        {% csrf_token %}
-        <input type='hidden' name='form_type' value='fetch'>
-        {% comment %} <label>Receipt No.</label> {% endcomment %}
-        <label>Date</label>
-        <input type='date' name='date'>
-        <br></br>
-        <label for="adm-no" class="labels">Admission No.</label>
-        <input type="text" name="adm_no">
+    <div class="main">
+        <form action='/today_fee_record/' method='post' class='hidden' id="feeForm">
+            {% csrf_token %}
+            <input type='hidden' name='form_type' value='fetch'>
+            <h4>Fee Form</h4>
+            {% comment %} <label>Receipt No.</label> {% endcomment %}
+            <div class="single">
+                <label>Date</label>
+                <input type='date' name='date'>
+            </div>
+            <div class="single">
+                <label for="adm-no" class="labels">Admission No.</label>
+                <input type="text" name="adm_no">
+            </div>
+            <div class="single">
+                <label for="class" name="class">Class</label>
+                <select name="student_class">
+                    <option value="" disabled selected>Select the Class</option>
+                    <option value="nursery">Nursery</option>
+                    <option value="pp-I">PP-I</option>
+                    <option value="pp-II">PP-II</option>
+                    <option value="I" >I</option>
+                    <option value="II" >II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                    <option value="IX">IX</option>
+                    <option value="X">X</option>
+                    <option value="XI">XI</option>
+                    <option value="XII">XII</option>
+                </select>
+            </div>
+            <div class="single">
+                <label for="section" class="labels">Section</label>
+                <input type="text" name="section">
+            </div>
+            <button type='submit'>Fetch Fee Details</button>
+        </form>
 
-        <label for="class" name="class">Class</label>
-        <select name="student_class">
-            <option value="" disabled selected>Select the Class</option>
-            <option value="nursery">Nursery</option>
-            <option value="pp-I">PP-I</option>
-            <option value="pp-II">PP-II</option>
-            <option value="I" >I</option>
-            <option value="II" >II</option>
-            <option value="III">III</option>
-            <option value="IV">IV</option>
-            <option value="V">V</option>
-            <option value="VI">VI</option>
-            <option value="VII">VII</option>
-            <option value="VIII">VIII</option>
-            <option value="IX">IX</option>
-            <option value="X">X</option>
-            <option value="XI">XI</option>
-            <option value="XII">XII</option>
-        </select>
-        <label for="section" class="labels">Section</label>
-        <input type="text" name="section">
-        <button type='submit'>Fetch Fee Details</button>
-    </form>
+        {% if fetch_details %}
+        <form action='/today_fee_record/' method='post'>
+            {% csrf_token %}
+            <input type='hidden' name='form_type' value='fill'>
+            <h4>Fee Details</h4>
+            <div class="single">
+                <label for="student_name" class="labels">Student Name: </label>{{fetch_details.student_name}}     
+            </div>
+            <div class="single">                                                                                                                            
+                <label for="total_fee" class="labels">Total fee</label>{{fetch_details.total_fee}}
+            </div>
+            <div class="single">
+                <label for="balance_fee" class="labels">Balance Fee</label>{{fetch_details.balance_fee}}
+            </div>
+            <div class="single">
+                <label for="fee_paid" class="labels">Fee Paid</label> 
+                <input type= 'number' name='fee_paid'>  
+            </div>                                        
+            <button type='submit'>Submit</button>
+        </form>
+        {% endif %}
 
-    {% if fetch_details %}
-    <form action='/today_fee_record/' method='post'>
-        {% csrf_token %}
-        <input type='hidden' name='form_type' value='fill'>
-        <label for="student_name" class="labels">Student Name: </label>{{fetch_details.student_name}}<br></br>                                                                                                                                  
-        <label for="total_fee" class="labels">Total fee</label>{{fetch_details.total_fee}}<br></br>  
-        <label for="balance_fee" class="labels">Balance Fee</label>{{fetch_details.balance_fee}}<br></br>  
-        <label for="fee_paid" class="labels">Fee Paid</label> 
-        <input type= 'number' name='fee_paid'>                                          
-        <button type='submit'>Submit</button>
-    </form>
-    {% endif %}
+        <form action='/today_expenditure/' method='post' class="hidden" id="expenditureForm">
+            {% csrf_token %}
+            <h4>Expenditure</h4>
+            <div class="single">
+                <label>Date</label>
+                <input type='date' name='date'>
+            </div>
+            <div class="single">
+                <label>Purpose</label>
+                <input type='text' placeholder='Specify the Purpose of Expenditure' name='purpose'>
+            </div>
+            <div>
+                <label>Amount</label>
+                <input type='number' name='amount'>
+            </div>
+            <button type='submit'>Add Expenditure</button>
+        </form>
+        {{error_message}}
+    </div>
+    
+    <footer>
+        <div class="footer">
+          <div class="info">
+            <h4>Champ School</h4>
+          </div>
+          <div class="social">
+            <ul>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+            </ul>
+          </div>
+          <div class="rights">
+            <p><i class="fa-solid fa-copyright"></i> Copyrights reserved.</p>
+          </div>
+        </div>
+        
+      </footer>
 
-    <form action='/today_expenditure/' method='post' class="hidden" id="expenditureForm">
-        {% csrf_token %}
-        <label>Date</label>
-        <input type='date' name='date'>
-        <label>Purpose</label>
-        <input type='text' placeholder='Specify the Purpose of Expenditure' name='purpose'>
-        <label>Amount</label>
-        <input type='number' name='amount'>
-        <button type='submit'>Add Expenditure</button>
-    </form>
-    {{error_message}}
     <script>
         const todayFinance = document.getElementById('today');
         const list = document.getElementById('today_finance');
@@ -171,6 +278,31 @@
             }, 25); // Adjust the speed of the loading bar animation by changing the interval duration
         });
         
+    </script>
+
+    <script>
+        var side_bar = document.querySelector(".side-bar");
+        var ham = document.getElementById("menus");
+        var close = document.getElementById("close");
+
+        ham.addEventListener("click", ()=>{
+            side_bar.classList.toggle("show-side");
+        });
+
+        close.addEventListener("click", ()=>{
+        side_bar.classList.toggle("show-side");
+        });
+
+        var nav1 = document.querySelector(".navbar1");
+        var val;
+        window.onscroll = function(){
+            if(document.documentElement.scrollTop > 20){
+                nav1.classList.add("sticky");
+            }
+            else{
+                nav1.classList.remove("sticky");
+            }
+        }
     </script>
 </body>
 </html>
